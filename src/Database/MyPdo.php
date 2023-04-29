@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace App\Database;
 
-class ParkhausPdo
+use PDO;
+
+class MyPdo extends PDO
 {
 
 }
