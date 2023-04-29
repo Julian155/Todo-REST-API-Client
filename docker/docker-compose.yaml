@@ -1,0 +1,48 @@
+version: '3.7'
+
+services:
+  # nginx
+  nginx:
+    build:
+      context: .
+      dockerfile: nginx/Dockerfile
+    ports:
+      - '8080:80'
+    volumes:
+      - ../:/var/www/php
+    networks:
+      - nginx
+    depends_on:
+      - php
+      - mysql
+
+  # php
+  php:
+    build:
+      context: .
+      dockerfile: php/Dockerfile
+    restart: unless-stopped
+    environment:
+      APP_ENV: dev
+      DATABASE_URL: mysql://root:password@mysql:3306/parkaus?serverVersion:8.0
+    volumes:
+      - ../:/var/www/php
+    networks:
+      - nginx
+    depends_on:
+      - mysql
+
+  # mysql
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: parkhaus
+    ports:
+      - "3306:3306"
+    networks:
+      - nginx
+
+networks:
+  nginx:
+
