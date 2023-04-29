@@ -1,7 +1,6 @@
-version: '3.7'
+version: '1.0'
 
 services:
-  # nginx
   nginx:
     build:
       context: .
@@ -16,7 +15,6 @@ services:
       - php
       - mysql
 
-  # php
   php:
     build:
       context: .
@@ -24,7 +22,7 @@ services:
     restart: unless-stopped
     environment:
       APP_ENV: dev
-      DATABASE_URL: mysql://root:password@mysql:3306/parkaus?serverVersion:8.0
+      DATABASE_URL: mysql://root:password@mysql:3306/Parkhaus?serverVersion:8.0
     volumes:
       - ../:/var/www/php
     networks:
@@ -32,16 +30,17 @@ services:
     depends_on:
       - mysql
 
-  # mysql
   mysql:
     image: mysql:8.0
     environment:
       MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: parkhaus
+      MYSQL_DATABASE: Parkhaus
     ports:
       - "3306:3306"
     networks:
       - nginx
+    volumes:
+      - ./mysql/setup_database.sql:/docker-entrypoint-initdb.d/setup_database.sql
 
 networks:
   nginx:
