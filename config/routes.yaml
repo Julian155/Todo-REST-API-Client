@@ -1,7 +1,7 @@
-controllers:
-    resource: ../src/Controller/
-    type: annotation
+app:
+    resource: routes/app.yaml
+
 
 kernel:
-    resource: ../src/Kernel.php
+    resource: ../src/Kernel/Kernel.php
     type: annotation

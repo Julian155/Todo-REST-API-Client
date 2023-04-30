@@ -1,0 +1,4 @@
+controllers.parkhaus:
+  resource: ../../src/Parkhaus/Communication/Controller/
+  type: annotation
+
