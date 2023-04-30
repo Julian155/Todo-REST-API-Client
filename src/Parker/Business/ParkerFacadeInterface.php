@@ -10,5 +10,4 @@ interface ParkerFacadeInterface
      *
      * @return void
      */
-    public function loadDemoData(string $importFilePath): void;
 }

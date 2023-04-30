@@ -10,10 +10,5 @@ use App\Kernel\Business\AbstractFacade;
  */
 class ParkerFacade extends AbstractFacade implements ParkerFacadeInterface
 {
-    /**
-     * @param string $importFilePath
-     *
-     * @return void
-     */
   
 }
