@@ -3,12 +3,13 @@ declare(strict_types=1);
 
 namespace App\Parker\Business;
 use App\Kernel\Business\AbstractBusinessFactory;
+use App\Parker\Business\Writer\ParkerWriter;
 
 
-/**
- * @method \App\Parker\DatabaseConfig getConfig()
- */
 class ParkerBusinessFactory extends AbstractBusinessFactory
 {
-    
+    public function createParkerWriter()
+    {
+        return new ParkerWriter();
+    }
 }

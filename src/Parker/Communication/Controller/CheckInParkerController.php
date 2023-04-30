@@ -3,16 +3,21 @@ declare(strict_types=1);
 
 namespace App\Parker\Communication\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Kernel\Business\AbstractFacade;
+use App\Kernel\Communication\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class CheckInParker extends AbstractController
+/**
+ * @method \App\Parker\Business\ParkerFacade getFacade()
+ */
+class CheckInParkerController extends AbstractController
 {
     #[Route('/CheckIn/ShortTermParker', name: 'Check In Short Term Parker')]
     public function checkInShortTermParker(Request $request): Response
     {
+        $this->getFacade()->checkInParker();
         return new Response();
     }   
     
@@ -20,5 +25,6 @@ class CheckInParker extends AbstractController
     public function checkInLongTermParker(Request $request): Response
     {
         return new Response();
-    }   
+    }
+
 }

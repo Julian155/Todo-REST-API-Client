@@ -5,9 +5,5 @@ namespace App\Parker\Business;
 
 interface ParkerFacadeInterface
 {
-    /**
-     * @param string $importFilePath
-     *
-     * @return void
-     */
+    
 }

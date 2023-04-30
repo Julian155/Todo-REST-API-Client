@@ -2,3 +2,6 @@ controllers.parkhaus:
   resource: ../../src/Parkhaus/Communication/Controller/
   type: annotation
 
+controllers.parker:
+  resource: ../../src/Parker/Communication/Controller/
+  type: annotation
