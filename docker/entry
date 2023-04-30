@@ -4,7 +4,7 @@ set -e
 
 read -r containerId < <(docker ps -aqf 'name=docker-php-1')
 
-command=$1
+command=$*
 
-docker exec -it "$containerId" /bin/bash -c "bin/console $command"
+docker exec -it "$containerId" /bin/bash -c "bin/console $command && exit"
 

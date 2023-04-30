@@ -11,12 +11,12 @@ use App\Kernel\Business\AbstractFacade;
 class DatabaseFacade extends AbstractFacade implements DatabaseFacadeInterface
 {
     /**
+     * @param string $importFilePath
+     *
      * @return void
      */
-    public function loadData(): void
+    public function loadDemoData(string $importFilePath): void
     {
-        $this->getFactory()->createDatabaseLoader()->loadDemoData();
-
-        dd('ok');
+        $this->getFactory()->createDatabaseLoader()->loadDemoData($importFilePath);
     }
 }

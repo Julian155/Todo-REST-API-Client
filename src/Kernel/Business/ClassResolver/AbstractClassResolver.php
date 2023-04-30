@@ -7,16 +7,20 @@ abstract class AbstractClassResolver
 {
     private const CLASS_NAME_MAP = [
         'businessFactory' => [
-            'layerName' => 'Business',
+            'layerName' => 'Business\\',
             'classType' => 'BusinessFactory',
         ],
         'communicationFactory' => [
-            'layerName' => 'Communication',
+            'layerName' => 'Business\\',
             'classType' => 'CommunicationFactory',
         ],
         'facade' => [
-            'layerName' => 'Business',
+            'layerName' => 'Business\\',
             'classType' => 'Facade',
+        ],
+        'config' => [
+            'layerName' => '',
+            'classType' => 'Config',
         ],
     ];
 
@@ -27,14 +31,13 @@ abstract class AbstractClassResolver
      */
     public function resolveClassName(object $callerClass): object
     {
-
         $resolvableClass = new ResolvableClass($callerClass);
 
         $layerName = self::CLASS_NAME_MAP[$this->getClassName()]['layerName'];
         $classType = self::CLASS_NAME_MAP[$this->getClassName()]['classType'];
 
         $resolvedFacadeClassName = sprintf(
-            '\%s\%s\%s\%s%s',
+            '\%s\%s\%s%s%s',
             $resolvableClass->getProjectName(),
             $resolvableClass->getModuleName(),
             $layerName,

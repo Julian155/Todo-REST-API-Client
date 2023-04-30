@@ -3,6 +3,7 @@
 
 use App\Kernel\Kernel;
 use App\Console\ConsoleApplication;
+use App\Shared\Kernel\KernelConstants;
 
 if (!is_file(dirname(__DIR__).'/vendor/autoload_runtime.php')) {
     throw new LogicException('Symfony Runtime is missing. Try running "composer require symfony/runtime".');
@@ -11,6 +12,10 @@ if (!is_file(dirname(__DIR__).'/vendor/autoload_runtime.php')) {
 require_once dirname(__DIR__).'/vendor/autoload_runtime.php';
 
 return function (array $context) {
+    if (!isset($context[KernelConstants::APPLICATION_ROOT_DIR])) {
+        $_ENV[KernelConstants::APPLICATION_ROOT_DIR] = dirname(__FILE__, 2);
+    }
+
     $kernel = new Kernel($context['APP_ENV'], (bool) $context['APP_DEBUG']);
 
     return new ConsoleApplication($kernel);

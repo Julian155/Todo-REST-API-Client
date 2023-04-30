@@ -6,7 +6,9 @@ namespace App\Database\Business;
 interface DatabaseFacadeInterface
 {
     /**
+     * @param string $importFilePath
+     *
      * @return void
      */
-    public function loadData(): void;
+    public function loadDemoData(string $importFilePath): void;
 }
