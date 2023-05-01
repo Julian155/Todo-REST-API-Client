@@ -9,7 +9,7 @@ use App\Kernel\Communication\AbstractCommunicationFactory;
 use App\Kernel\Communication\CommunicationFactoryResolver;
 use \Symfony\Bundle\FrameworkBundle\Controller\AbstractController as SymfonyAbstractController;
 
-class AbstractController extends SymfonyAbstractController
+abstract class AbstractController extends SymfonyAbstractController
 {
     /**
      * @var \App\Kernel\Communication\AbstractCommunicationFactory|null
