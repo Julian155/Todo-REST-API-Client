@@ -28,13 +28,13 @@ class ParkerWriter
 
         $sqlStatementParker = $this->getConnection()->prepare("SELECT ID FROM Parker WHERE Kennzeichen = ?");
         $sqlStatementParker->execute([$licensePlate]);
-        $data = $sqlStatementParker->fetchAll();
-        return 99;
+        $data = $sqlStatementParker->fetch();
+        return (int) $data['ID'];
     }
 
     public function writeShortTermEntryInStatus(int $parkerID): void
     {
         $sqlStatement = $this->getConnection()->prepare("INSERT INTO Status (Einfahrtzeit,Ausfahrtzeit,Parkplatz_ID,Parker_ID) VALUES (?,?,?,?)");
-        $sqlStatement->execute([time(), null, $parkerID]);
+        $sqlStatement->execute([date('d-m-y h:i:s'), null, null,$parkerID]);
     }
 }

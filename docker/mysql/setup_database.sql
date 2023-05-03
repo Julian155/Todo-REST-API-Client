@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS Parker(
 );
 
 CREATE TABLE IF NOT EXISTS Status(
-    ID INT PRIMARY KEY,
+    ID INT PRIMARY KEY AUTO_INCREMENT,
     Einfahrtzeit DATETIME,
     Ausfahrtzeit DATETIME,
     Parkplatz_ID int,
