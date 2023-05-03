@@ -13,6 +13,6 @@ class ParkerFacade extends AbstractFacade implements ParkerFacadeInterface
 {
     public function checkInParker()
     {
-        $this->getFactory()->createParkerWriter()->writeParkerInstance();
+        $this->getFactory()->createParkerWriter()->writeShortTermParkerEntry();
     }
 }

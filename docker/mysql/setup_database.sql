@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS Dauerparker(
 );
 
 CREATE TABLE IF NOT EXISTS Parker(
-    ID INT PRIMARY KEY,
+    ID INT PRIMARY KEY AUTO_INCREMENT,
     Kennzeichen VARCHAR(8),
     Dauerparker_ID int,
     FOREIGN KEY (Dauerparker_ID) REFERENCES Dauerparker(ID)
