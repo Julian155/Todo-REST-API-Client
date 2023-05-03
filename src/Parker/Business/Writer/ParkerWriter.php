@@ -37,4 +37,31 @@ class ParkerWriter
         $sqlStatement = $this->getConnection()->prepare("INSERT INTO Status (Einfahrtzeit,Ausfahrtzeit,Parkplatz_ID,Parker_ID) VALUES (?,?,?,?)");
         $sqlStatement->execute([date('d-m-y h:i:s'), null, null,$parkerID]);
     }
+
+
+
+
+    public function writeLongTermParkerEntry(): void
+    {
+
+        $parkerID = $this->writeLongTermEntryInParker('1');
+        $this->writeLongTermEntryInStatus($parkerID);
+    }
+
+    public function writeLongTermEntryInParker(string $longTermParkerID): int
+    {
+        $sqlStatement = $this->getConnection()->prepare("INSERT INTO Parker (Kennzeichen,Dauerparker_ID) VALUES (?,?)");
+        $sqlStatement->execute([null, $longTermParkerID]);
+
+        $sqlStatementParker = $this->getConnection()->prepare("SELECT ID FROM Parker WHERE Dauerparker_ID = ?");
+        $sqlStatementParker->execute([$longTermParkerID]);
+        $data = $sqlStatementParker->fetch();
+        return (int) $data['ID'];
+    }
+
+    public function writeLongTermEntryInStatus(int $parkerID): void
+    {
+        $sqlStatement = $this->getConnection()->prepare("INSERT INTO Status (Einfahrtzeit,Ausfahrtzeit,Parkplatz_ID,Parker_ID) VALUES (?,?,?,?)");
+        $sqlStatement->execute([date('d-m-y h:i:s'), null, null,$parkerID]);
+    }
 }
