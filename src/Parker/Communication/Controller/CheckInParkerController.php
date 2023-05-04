@@ -28,4 +28,19 @@ class CheckInParkerController extends AbstractController
         return new Response();
     }
 
+    #[Route('/CheckOut/ShortTermParker', name: 'Check Out Short Term Parker')]
+    public function checkOutShortTermParker(Request $request): Response
+    {
+        $this->getFacade()->checkOutShortTermParker();
+        return new Response();
+    }
+
+    #[Route('/CheckOut/LongTermParker', name: 'Check Out Long Term Parker')]
+    public function checkOutLongTermParker(Request $request): Response
+    {
+        $this->getFacade()->checkOutLongTermParker();
+        return new Response();
+    }
+
+
 }

@@ -11,13 +11,24 @@ use App\Kernel\Business\AbstractFacade;
  */
 class ParkerFacade extends AbstractFacade implements ParkerFacadeInterface
 {
-    public function checkInShortTermParker()
+    public function checkInShortTermParker(): void
     {
-        $this->getFactory()->createParkerWriter()->writeShortTermParkerEntry();
+        $this->getFactory()->createParkerWriter()->writeShortTermParkerCheckInEntry();
     }
 
-    public function checkInLongTermParker()
+    public function checkInLongTermParker(): void
     {
-        $this->getFactory()->createParkerWriter()->writeLongTermParkerEntry();
+        $this->getFactory()->createParkerWriter()->writeLongTermParkerCheckInEntry();
+    }
+
+
+    public function checkOutShortTermParker(): void
+    {
+        $this->getFactory()->createParkerWriter()->writeShortTermParkerCheckOutEntry();
+    }
+
+    public function checkOutLongTermParker(): void
+    {
+        $this->getFactory()->createParkerWriter()->writeLongTermParkerCheckOutEntry();
     }
 }

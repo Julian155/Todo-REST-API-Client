@@ -8,7 +8,7 @@ use App\Parker\Business\Writer\ParkerWriter;
 
 class ParkerBusinessFactory extends AbstractBusinessFactory
 {
-    public function createParkerWriter()
+    public function createParkerWriter(): ParkerWriter
     {
         return new ParkerWriter();
     }
