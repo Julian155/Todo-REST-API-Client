@@ -1,6 +1,7 @@
 #!/usr/bin/env php
 <?php
 
+use App\Kernel\AbstractDependencyProvider;
 use App\Kernel\Kernel;
 use App\Console\ConsoleApplication;
 use App\Shared\Kernel\KernelConstants;
@@ -17,6 +18,8 @@ return function (array $context) {
     }
 
     $kernel = new Kernel($context['APP_ENV'], (bool) $context['APP_DEBUG']);
+
+    $kernel->boot();
 
     return new ConsoleApplication($kernel);
 };

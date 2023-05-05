@@ -2,9 +2,20 @@
 
 set -e
 
-read -r containerId < <(docker ps -aqf 'name=docker-php-1')
 
 command=$*
+
+if [ "$command" = "up" ]; then
+  docker-compose --file ./docker/docker-compose.yaml up -d
+  exit
+fi
+
+if [ "$command" = "down" ]; then
+    docker-compose --file ./docker/docker-compose.yaml down
+    exit
+fi
+
+read -r containerId < <(docker ps -aqf 'name=docker-php-1')
 
 docker exec -it "$containerId" /bin/bash -c "bin/console $command && exit"
 

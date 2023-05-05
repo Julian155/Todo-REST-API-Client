@@ -22,6 +22,10 @@ abstract class AbstractClassResolver
             'layerName' => '',
             'classType' => 'Config',
         ],
+        'dependencyProvider' => [
+            'layerName' => '',
+            'classType' => 'DependencyProvider',
+        ],
     ];
 
     /**
