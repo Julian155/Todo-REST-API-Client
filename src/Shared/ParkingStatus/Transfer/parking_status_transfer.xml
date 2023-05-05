@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<transfers xmlns="transfer-schema"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="transfer-schema ../../../Transfer/Templates/schema.xsd">
+
+    <transfer name="ParkingStatus">
+        <property name="einfahrtueit" type="string"/>
+        <property name="ausfahrtzeit" type="string"/>
+        <property name="parkplatzId" type="int"/>
+        <property name="parkerId" type="int"/>
+    </transfer>
+
+    <transfer name="Parkplatz">
+        <property name="id" type="int"/>
+        <property name="reserviert" type="bool"/>
+    </transfer>
+</transfers>
