@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS Status(
 );
 
 CREATE TABLE IF NOT EXISTS Logs(
-    ID INT PRIMARY KEY,
+    ID INT PRIMARY KEY AUTO_INCREMENT,
     Kennzeichen VARCHAR(8),
     Dauerparker_ID int,
     FOREIGN KEY (Dauerparker_ID) REFERENCES Dauerparker(ID),
