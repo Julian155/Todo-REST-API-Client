@@ -1,5 +1,6 @@
 <?php
 
+use App\Kernel\AbstractDependencyProvider;
 use App\Kernel\Kernel;
 use App\Shared\Kernel\KernelConstants;
 
@@ -10,5 +11,9 @@ return function (array $context) {
         $_ENV[KernelConstants::APPLICATION_ROOT_DIR] = dirname(__FILE__, 2);
     }
 
-    return new Kernel($context['APP_ENV'], (bool) $context['APP_DEBUG']);
+    $kernel = new Kernel($context['APP_ENV'], (bool) $context['APP_DEBUG']);
+
+    $kernel->boot();
+
+    return $kernel;
 };
