@@ -1,0 +1,76 @@
+<?php
+declare(strict_types=1);
+
+namespace App\Generated;
+
+use App\Transfer\Business\BaseTransfer\AbstractTransfer;
+{% for propertyNameAndUsePath in properties %}
+{% if propertyNameAndUsePath['usePath'] %}
+use {{ propertyNameAndUsePath['usePath'] }}
+{% endif %}
+{% endfor %}
+
+class {{ className }} extends AbstractTransfer
+{
+{% for propertyName, propertyTypeAndUsePath in properties %}
+    /**
+     * @var {{ propertyNameAndUsePath['usePath'] ? propertyNameAndUsePath['usePath'] : propertyTypeAndUsePath['typeHint'] }}|null
+     */
+    private ?{{ propertyTypeAndUsePath['type'] }} ${{ propertyName }} = null;
+
+{% endfor %}
+    /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return [
+{% for propertyName, propertyTypeAndUsePath in properties %}
+            '{{ propertyName }}' => $this->{{ propertyName }},
+{% endfor %}
+        ];
+    }
+
+    /**
+     * @param array $transferData
+     *
+     * @return void
+     */
+    public function fromArray(array $transferData): void
+    {
+        foreach ($transferData as $key => $value) {
+            switch ($key) {
+{% for propertyName, propertyTypeAndUsePath in properties %}
+                case '{{propertyName}}':
+                    $this->{{ propertyName }} = $value;
+                    break;
+{% endfor %}
+            }
+        }
+    }
+{% for propertyName, propertyTypeAndUsePath in properties %}
+
+    /**
+     * @param {{ propertyNameAndUsePath['usePath'] ? propertyNameAndUsePath['usePath'] : propertyTypeAndUsePath['typeHint'] }}|null $value
+     *
+     * @return $this
+     */
+    public function set{{ propertyName[:1]|upper ~ propertyName[1:] }}(?{{ propertyTypeAndUsePath['type'] }} $value): self
+    {
+        $this->{{ propertyName }} = $value;
+
+        return $this;
+    }
+{% endfor %}
+{% for propertyName, propertyTypeAndUsePath in properties %}
+
+    /**
+     * @return {{ propertyNameAndUsePath['usePath'] ? propertyNameAndUsePath['usePath'] : propertyTypeAndUsePath['typeHint'] }}|null
+     */
+    public function get{{ propertyName[:1]|upper ~ propertyName[1:] }}(): ?{{ propertyTypeAndUsePath['type'] }}
+    {
+        return $this->{{ propertyName }};
+    }
+{% endfor %}
+}
+
