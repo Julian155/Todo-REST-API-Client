@@ -3,14 +3,12 @@ declare(strict_types=1);
 
 namespace App\Kernel;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-
 abstract class AbstractDependencyProvider
 {
     /**
-     * @var \Symfony\Component\DependencyInjection\ContainerInterface|null
+     * @var \App\Kernel\Container|null
      */
-    protected static ?ContainerInterface $container = null;
+    protected static ?Container $container = null;
 
     public function __construct()
     {
@@ -19,31 +17,31 @@ abstract class AbstractDependencyProvider
     }
 
     /**
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+     * @param \App\Kernel\Container $container
      *
-     * @return \Symfony\Component\DependencyInjection\ContainerInterface
+     * @return \App\Kernel\Container
      */
-    protected function addBusinessLayerDependencies(ContainerInterface $container): ContainerInterface
+    protected function addBusinessLayerDependencies(Container $container): Container
     {
         return $container;
     }
 
     /**
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+     * @param \App\Kernel\Container $container
      *
-     * @return \Symfony\Component\DependencyInjection\ContainerInterface
+     * @return \App\Kernel\Container
      */
-    protected function addCommunicationLayerDependencies(ContainerInterface $container): ContainerInterface
+    protected function addCommunicationLayerDependencies(Container $container): Container
     {
         return $container;
     }
 
     /**
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+     * @param \App\Kernel\Container $container
      *
      * @return void
      */
-    public static function setContainer(ContainerInterface $container): void
+    public static function setContainer(Container $container): void
     {
         if (!static::$container) {
             static::$container = $container;
@@ -53,9 +51,9 @@ abstract class AbstractDependencyProvider
     /**
      * @param string $serviceName
      *
-     * @return mixed
+     * @return object|null
      */
-    public function get(string $serviceName): mixed
+    public function get(string $serviceName): object|null
     {
         return static::$container->get($serviceName);
     }

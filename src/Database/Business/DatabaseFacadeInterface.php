@@ -11,4 +11,9 @@ interface DatabaseFacadeInterface
      * @return void
      */
     public function loadDemoData(string $importFilePath): void;
+
+    /**
+     * @return void
+     */
+    public function generateTableMaps(): void;
 }

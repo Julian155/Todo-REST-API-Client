@@ -13,6 +13,8 @@ use App\Transfer\Business\XmlLoader\XmlLoader;
 use App\Transfer\TransferDependencyProvider;
 use App\Kernel\Business\AbstractBusinessFactory;
 use App\Transfer\Business\XmlCollector\XmlCollector;
+use App\Twig\Business\TwigFacade;
+use App\Twig\Business\TwigFacadeInterface;
 use Twig\Environment;
 
 /**
@@ -56,26 +58,16 @@ class TransferBusinessFactory extends AbstractBusinessFactory
     public function createTransferFileWriter(): TransferFileWriterInterface
     {
         return new TransferFileWriter(
-            $this->getTwigService(),
+            $this->getTwigFacade(),
             $this->getConfig(),
         );
     }
 
     /**
-     * @return \App\Transfer\Business\DirectoryFileCleaner\DirectoryFileCleaner
+     * @return \App\Twig\Business\TwigFacadeInterface
      */
-    public function createDirectoryFileCleaner(): DirectoryFileCleaner
+    public function getTwigFacade(): TwigFacadeInterface
     {
-        return new DirectoryFileCleaner(
-            $this->getConfig(),
-        );
-    }
-
-    /**
-     * @return \Twig\Environment
-     */
-    public function getTwigService(): Environment
-    {
-        return $this->getDependency(TransferDependencyProvider::SERVICE_TWIG);
+        return $this->getDependency(TransferDependencyProvider::TWIG_FACADE);
     }
 }

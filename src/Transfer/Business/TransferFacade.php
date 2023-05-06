@@ -28,12 +28,4 @@ class TransferFacade extends AbstractFacade implements TransferFacadeInterface
     {
         $this->getFactory()->createTransferFileWriter()->writeTransferClassDataToFiles($mappedXmlTransfers);
     }
-
-    /**
-     * @return void
-     */
-    public function clearGeneratedDirectory(): void
-    {
-        $this->getFactory()->createDirectoryFileCleaner()->cleanGeneratedDirectory();
-    }
 }
