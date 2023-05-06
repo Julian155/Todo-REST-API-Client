@@ -13,7 +13,8 @@ class ModuleServicesCollector implements ModuleServicesCollectorInterface
 
     private const SERVICES = [
         'Config' => '',
-        'Facade' => 'Business\\'
+        'Facade' => 'Business\\',
+        'QueryContainer' => 'Persistence\\',
     ];
 
     private const EXCLUDED_MODULES = [

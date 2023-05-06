@@ -6,7 +6,9 @@ namespace App\Kernel\Business\Locator;
 use App\Generated\Ide\AutoCompleteInterface;
 use App\Kernel\Business\FacadeResolver;
 use App\Kernel\Business\ResolverBundle\ResolverBundle;
+use App\Kernel\Business\ResolverBundle\ResolverBundleInterface;
 use App\Kernel\ConfigResolver;
+use App\Kernel\Persistence\QueryContainerResolver;
 
 class Locator implements AutoCompleteInterface
 {
@@ -24,14 +26,15 @@ class Locator implements AutoCompleteInterface
     }
 
     /**
-     * @return \App\Kernel\Business\ResolverBundle\ResolverBundle
+     * @return \App\Kernel\Business\ResolverBundle\ResolverBundleInterface
      */
-    protected function getResolverBundle(): ResolverBundle
+    protected function getResolverBundle(): ResolverBundleInterface
     {
         if (!static::$resolverBundle) {
             static::$resolverBundle = new ResolverBundle([
                 'facade' => new FacadeResolver(),
                 'config' => new ConfigResolver(),
+                'queryContainer' => new QueryContainerResolver(),
             ]);
         }
 

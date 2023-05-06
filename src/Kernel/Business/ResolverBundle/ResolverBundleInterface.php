@@ -5,5 +5,10 @@ namespace App\Kernel\Business\ResolverBundle;
 
 interface ResolverBundleInterface
 {
-
+    /**
+     * @param string $moduleName
+     *
+     * @return $this
+     */
+    public function setModuleName(string $moduleName): self;
 }
