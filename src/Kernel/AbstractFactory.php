@@ -3,17 +3,24 @@ declare(strict_types=1);
 
 namespace App\Kernel;
 
+use App\Kernel\Persistence\AbstractQueryContainer;
+
 abstract class AbstractFactory
 {
     /**
      * @var \App\Kernel\AbstractConfig|null
      */
-    public ?AbstractConfig $config = null;
+    private ?AbstractConfig $config = null;
 
     /**
      * @var \App\Kernel\AbstractDependencyProvider|null
      */
-    public ?AbstractDependencyProvider $dependencyProvider = null;
+    private ?AbstractDependencyProvider $dependencyProvider = null;
+
+    /**
+     * @var \App\Kernel\Persistence\AbstractQueryContainer|null
+     */
+    private ?AbstractQueryContainer $queryContainer = null;
 
     /**
      * @return \App\Kernel\AbstractConfig

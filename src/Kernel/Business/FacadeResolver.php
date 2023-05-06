@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\Kernel\Business;
 
 use App\Kernel\Business\ClassResolver\AbstractClassResolver;
-use App\Kernel\Business\ClassResolver\ResolvableClass;
 use App\Kernel\Business\ResolverBundle\ServiceResolverInterface;
 
 class FacadeResolver extends AbstractClassResolver implements ServiceResolverInterface

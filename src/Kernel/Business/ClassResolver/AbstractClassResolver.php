@@ -18,6 +18,10 @@ abstract class AbstractClassResolver
             'layerName' => 'Business\\',
             'classType' => 'Facade',
         ],
+        'queryContainer' => [
+            'layerName' => 'Persistence\\',
+            'classType' => 'QueryContainer',
+        ],
         'config' => [
             'layerName' => '',
             'classType' => 'Config',
