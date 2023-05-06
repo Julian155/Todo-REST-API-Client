@@ -30,6 +30,8 @@ abstract class AbstractFacade
         $this->factory = $this->getFactoryResolver()->resolveFactory($this);
         $this->factory->initDependencyProvider();
         $this->factory->initConfig();
+        $this->factory->initEntityManager();
+        $this->factory->initQueryContainer();
     }
 
     /**

@@ -11,12 +11,12 @@ class ConfigResolver extends AbstractClassResolver implements ServiceResolverInt
     /**
      * @param object|string $callerClass
      *
-     * @return \App\Kernel\AbstractConfig
+     * @return \App\Kernel\AbstractConfig|null
      */
-    public function resolveClass(object|string $callerClass): AbstractConfig
+    public function resolveClass(object|string $callerClass): ?AbstractConfig
     {
         /**
-         * @var \App\Kernel\AbstractConfig $config
+         * @var \App\Kernel\AbstractConfig|null $config
          */
         $config = $this->resolveClassName($callerClass);
 

@@ -8,7 +8,7 @@ interface ServiceResolverInterface
     /**
      * @param object|string $callerClass
      *
-     * @return object
+     * @return object|null
      */
-    public function resolveClass(object|string $callerClass): object;
+    public function resolveClass(object|string $callerClass): ?object;
 }

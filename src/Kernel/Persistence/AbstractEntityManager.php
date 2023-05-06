@@ -5,7 +5,7 @@ namespace App\Kernel\Persistence;
 
 use App\Database\ConnectionTrait;
 
-abstract class AbstractQueryContainer
+class AbstractEntityManager
 {
     use ConnectionTrait;
 }

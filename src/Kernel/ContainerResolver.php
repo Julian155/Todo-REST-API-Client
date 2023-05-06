@@ -10,16 +10,16 @@ class ContainerResolver extends AbstractClassResolver
     /**
      * @param object $callerClass
      *
-     * @return \App\Kernel\AbstractDependencyProvider
+     * @return \App\Kernel\AbstractDependencyProvider|null
      */
-    public function resolveDependencyProvider(object $callerClass): AbstractDependencyProvider
+    public function resolveDependencyProvider(object $callerClass): ?AbstractDependencyProvider
     {
         /**
-         * @var \App\Kernel\AbstractDependencyProvider $config
+         * @var \App\Kernel\AbstractDependencyProvider|null $dependencyProvider
          */
-        $config = $this->resolveClassName($callerClass);
+        $dependencyProvider = $this->resolveClassName($callerClass);
 
-        return $config;
+        return $dependencyProvider;
     }
 
     /**

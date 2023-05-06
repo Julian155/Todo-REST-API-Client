@@ -11,12 +11,12 @@ class QueryContainerResolver extends AbstractClassResolver implements ServiceRes
     /**
      * @param object|string $callerClass
      *
-     * @return \App\Kernel\Persistence\AbstractQueryContainer
+     * @return \App\Kernel\Persistence\AbstractQueryContainer|null
      */
-    public function resolveClass(object|string $callerClass): AbstractQueryContainer
+    public function resolveClass(object|string $callerClass): ?AbstractQueryContainer
     {
         /**
-         * @var \App\Kernel\Persistence\AbstractQueryContainer $queryContainer
+         * @var \App\Kernel\Persistence\AbstractQueryContainer|null $queryContainer
          */
         $queryContainer = $this->resolveClassName($callerClass);
 

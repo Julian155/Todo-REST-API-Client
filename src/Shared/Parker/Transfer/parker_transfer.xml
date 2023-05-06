@@ -9,6 +9,7 @@
     </transfer>
 
     <transfer name="Parker">
+        <property name="id" type="int"/>
         <property name="kennzeichen" type="string"/>
         <property name="dauerparkerId" type="int"/>
     </transfer>
