@@ -11,7 +11,7 @@ abstract class AbstractClassResolver
             'classType' => 'BusinessFactory',
         ],
         'communicationFactory' => [
-            'layerName' => 'Business\\',
+            'layerName' => 'Communication\\',
             'classType' => 'CommunicationFactory',
         ],
         'facade' => [
@@ -29,29 +29,47 @@ abstract class AbstractClassResolver
     ];
 
     /**
-     * @param object $callerClass
+     * @var \App\Kernel\Business\ClassResolver\ResolvableClassBuilder|null
+     */
+    protected static ?ResolvableClassBuilder $resolvableClassBuilder = null;
+
+    /**
+     * @param object|string $callerClass
      *
      * @return object
      */
-    public function resolveClassName(object $callerClass): object
+    public function resolveClassName(object|string $callerClass): object
     {
-        $resolvableClass = new ResolvableClass($callerClass);
+        $this->getResolvableClassBuilder()->extractResolvableClassModule($callerClass);
 
         $layerName = self::CLASS_NAME_MAP[$this->getClassName()]['layerName'];
         $classType = self::CLASS_NAME_MAP[$this->getClassName()]['classType'];
 
-        $resolvedFacadeClassName = sprintf(
+        $resolvedClassPath = sprintf(
             '\%s\%s\%s%s%s',
-            $resolvableClass->getProjectName(),
-            $resolvableClass->getModuleName(),
+            $this->getResolvableClassBuilder()->getRootNameSpace(),
+            $this->getResolvableClassBuilder()->getModuleName(),
             $layerName,
-            $resolvableClass->getModuleName(),
+            $this->getResolvableClassBuilder()->getModuleName(),
             $classType,
         );
 
-        return new $resolvedFacadeClassName;
+        return new $resolvedClassPath;
     }
 
+    /**
+     * @return \App\Kernel\Business\ClassResolver\ResolvableClassBuilder
+     */
+    protected function getResolvableClassBuilder(): ResolvableClassBuilder
+    {
+        if (!static::$resolvableClassBuilder) {
+            $rootNamespace = strtok(__NAMESPACE__, '\\');
+
+            static::$resolvableClassBuilder = new ResolvableClassBuilder($rootNamespace);
+        }
+
+        return static::$resolvableClassBuilder;
+    }
     /**
      * @return string
      */

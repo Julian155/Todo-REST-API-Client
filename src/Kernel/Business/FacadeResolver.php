@@ -5,20 +5,22 @@ namespace App\Kernel\Business;
 
 use App\Kernel\Business\ClassResolver\AbstractClassResolver;
 use App\Kernel\Business\ClassResolver\ResolvableClass;
+use App\Kernel\Business\ResolverBundle\ServiceResolverInterface;
 
-class FacadeResolver extends AbstractClassResolver
+class FacadeResolver extends AbstractClassResolver implements ServiceResolverInterface
 {
     /**
-     * @param object $callerClass
+     * @param object|string $callerClass
      *
      * @return \App\Kernel\Business\AbstractFacade
      */
-    public function resolveFacade(object $callerClass): AbstractFacade
+    public function resolveClass(object|string $callerClass): AbstractFacade
     {
         /**
          * @var \App\Kernel\Business\AbstractFacade $facade
          */
         $facade = $this->resolveClassName($callerClass);
+        $facade->initFactory();
 
         return $facade;
     }

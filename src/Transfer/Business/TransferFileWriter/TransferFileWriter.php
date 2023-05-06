@@ -5,18 +5,20 @@ namespace App\Transfer\Business\TransferFileWriter;
 
 use App\Shared\Transfer\TransferConstants;
 use App\Transfer\TransferConfig;
+use App\Twig\Business\TwigFacade;
 use Twig\Environment;
 
 class TransferFileWriter implements TransferFileWriterInterface
 {
+    private const FOLDER_NAME = 'Transfer';
     private const TWIG_TRANSFER_TEMPLATE_FILE = 'transferSchema.twig';
     private const TWIG_TRANSFER_TEMPLATES_PATH = 'src/Transfer/Templates';
     private const TWIG_TRANSFER_TEMPLATES_NAMESPACE = 'App\src\Transfer\Templates';
 
     /**
-     * @var \Twig\Environment
+     * @var \App\Twig\Business\TwigFacade
      */
-    private Environment $twigService;
+    private TwigFacade $twigFacade;
 
     /**
      * @var \App\Transfer\TransferConfig
@@ -24,27 +26,18 @@ class TransferFileWriter implements TransferFileWriterInterface
     private TransferConfig $config;
 
     /**
-     * @param \Twig\Environment $twigService
-     * @param \App\Transfer\TransferConfig $config
+     * @var string
      */
-    public function __construct(Environment $twigService, TransferConfig $config)
-    {
-        $this->twigService = $twigService;
-        $this->config = $config;
-        $this->initLoader();
-    }
+    private string $routeTransferDirectory = '';
 
     /**
-     * @return void
+     * @param \App\Twig\Business\TwigFacade  $twigFacade
+     * @param \App\Transfer\TransferConfig $config
      */
-    protected function initLoader(): void
+    public function __construct(TwigFacade $twigFacade, TransferConfig $config)
     {
-        /**
-         * @var \Twig\Loader\FilesystemLoader $loader
-         */
-        $loader = $this->twigService->getLoader();
-
-        $loader->setPaths(self::TWIG_TRANSFER_TEMPLATES_PATH);
+        $this->twigFacade = $twigFacade;
+        $this->config = $config;
     }
 
     /**
@@ -58,11 +51,16 @@ class TransferFileWriter implements TransferFileWriterInterface
      */
     public function writeTransferClassDataToFiles(\ArrayObject $mappedXmlTransferObjectCollection): void
     {
-        $routeTransferDirectory = sprintf(
-            '%s/%s',
+        $this->routeTransferDirectory = sprintf(
+            '%s/%s/%s',
             $this->config->getApplicationRootDirectory(),
             TransferConstants::GENERATED_PATH,
+            self::FOLDER_NAME
         );
+
+        $this->twigFacade->cleanGeneratedDirectory(self::FOLDER_NAME);
+
+        $this->createTransferDirectory();
 
         $templateVariables = [
             'namespace' => self::TWIG_TRANSFER_TEMPLATES_NAMESPACE,
@@ -70,10 +68,15 @@ class TransferFileWriter implements TransferFileWriterInterface
 
         foreach ($mappedXmlTransferObjectCollection as $mappedXmlTransferObject) {
             foreach ($mappedXmlTransferObject as $className => $properties) {
-                $templateVariables['className'] = $className;
+                $templateVariables['className'] = $className.'Transfer';
                 $templateVariables['properties'] = $properties;
 
-                [$filePath, $transferFileContent] = $this->parseTransferClassData($routeTransferDirectory, $templateVariables);
+                [$filePath, $transferFileContent] = $this->twigFacade->parseClassData(
+                    $this->routeTransferDirectory,
+                    $templateVariables,
+                    self::TWIG_TRANSFER_TEMPLATE_FILE,
+                    self::TWIG_TRANSFER_TEMPLATES_PATH
+                );
 
                 file_put_contents($filePath, $transferFileContent);
             }
@@ -81,25 +84,12 @@ class TransferFileWriter implements TransferFileWriterInterface
     }
 
     /**
-     * @param string $routeTransferDirectory
-     * @param array $templateVariables
-     *
-     * @return array
-     *
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
+     * @return void
      */
-    protected function parseTransferClassData(string $routeTransferDirectory, array $templateVariables): array
+    protected function createTransferDirectory(): void
     {
-        $transferFileContent = $this->twigService->render(self::TWIG_TRANSFER_TEMPLATE_FILE, $templateVariables);
-
-        $filePath = sprintf(
-            '%s/%s.php',
-            $routeTransferDirectory,
-            $templateVariables['className'],
-        );
-
-        return [$filePath, $transferFileContent];
+        if (!file_exists($this->routeTransferDirectory)) {
+            mkdir($this->routeTransferDirectory, 0777, true);
+        }
     }
 }

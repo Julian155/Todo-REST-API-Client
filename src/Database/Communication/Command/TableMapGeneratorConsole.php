@@ -1,19 +1,19 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Transfer\Communication\Command;
+namespace App\Database\Communication\Command;
 
 use App\Console\Console;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * @method \App\Transfer\Business\TransferFacadeInterface getFacade()
+ * @method \App\Database\Business\DatabaseFacadeInterface getFacade()
  */
-class TransferBuilderCommand extends Console
+class TableMapGeneratorConsole extends Console
 {
-    public const COMMAND_NAME = 'transfer:generate';
-    public const DESCRIPTION = 'Generates Transfer classes from xml files';
+    public const COMMAND_NAME = 'database:generate:table-maps';
+    public const DESCRIPTION = 'Creates table map class files for the database schema';
 
     /**
      * @return void
@@ -32,9 +32,9 @@ class TransferBuilderCommand extends Console
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $mappedXmlTransfers = $this->getFacade()->getMappedXmlTransfers();
+        $this->getFacade()->generateTableMaps();
 
-        $this->getFacade()->createTransfers($mappedXmlTransfers);
+        $output->writeln('Output was successful');
 
         return static::CODE_SUCCESS;
     }

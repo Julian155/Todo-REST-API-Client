@@ -8,23 +8,23 @@ abstract class AbstractFactory
     /**
      * @var \App\Kernel\AbstractConfig|null
      */
-    public static ?AbstractConfig $config = null;
+    public ?AbstractConfig $config = null;
 
     /**
      * @var \App\Kernel\AbstractDependencyProvider|null
      */
-    public static ?AbstractDependencyProvider $dependencyProvider = null;
+    public ?AbstractDependencyProvider $dependencyProvider = null;
 
     /**
      * @return \App\Kernel\AbstractConfig
      */
     public function getConfig(): AbstractConfig
     {
-        if (!static::$config) {
-            static::$config = $this->getConfigResolver()->resolveConfig($this);
+        if (!$this->config) {
+            $this->config = $this->getConfigResolver()->resolveClass($this);
         }
 
-        return static::$config;
+        return $this->config;
     }
 
     /**
@@ -40,11 +40,11 @@ abstract class AbstractFactory
      */
     public function getContainer(): AbstractDependencyProvider
     {
-        if (!static::$dependencyProvider) {
-            static::$dependencyProvider = $this->getContainerResolver()->resolveDependencyProvider($this);
+        if (!$this->dependencyProvider) {
+            $this->dependencyProvider = $this->getContainerResolver()->resolveDependencyProvider($this);
         }
 
-        return static::$dependencyProvider;
+        return $this->dependencyProvider;
     }
 
     /**
@@ -63,5 +63,21 @@ abstract class AbstractFactory
     protected function getDependency(string $serviceName): mixed
     {
         return $this->getContainer()->get($serviceName);
+    }
+
+    /**
+     * @return void
+     */
+    public function initConfig(): void
+    {
+        $this->config = $this->getConfigResolver()->resolveClass($this);
+    }
+
+    /**
+     * @return void
+     */
+    public function initDependencyProvider(): void
+    {
+        $this->dependencyProvider = $this->getContainerResolver()->resolveDependencyProvider($this);
     }
 }

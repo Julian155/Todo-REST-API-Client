@@ -13,6 +13,8 @@ class Kernel extends BaseKernel
     {
         parent::boot();
 
-        AbstractDependencyProvider::setContainer($this->getContainer());
+        $kernelContainer = new Container($this->getContainer());
+
+        AbstractDependencyProvider::setContainer($kernelContainer);
     }
 }

@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Transfer;
+namespace App\Database;
 
 use App\Kernel\AbstractDependencyProvider;
 use App\Kernel\Container;
 
-class TransferDependencyProvider extends AbstractDependencyProvider
+class DatabaseDependencyProvider extends AbstractDependencyProvider
 {
     public const TWIG_FACADE = 'FACADE_TWIG';
 

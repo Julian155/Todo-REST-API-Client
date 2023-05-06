@@ -47,7 +47,7 @@ abstract class AbstractController extends SymfonyAbstractController
     public function getFacade(): AbstractFacade
     {
         if (!static::$facade) {
-            static::$facade = $this->getFacadeResolver()->resolveFacade($this);
+            static::$facade = $this->getFacadeResolver()->resolveClass($this);
         }
 
         return static::$facade;

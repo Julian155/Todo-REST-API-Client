@@ -19,4 +19,12 @@ class DatabaseFacade extends AbstractFacade implements DatabaseFacadeInterface
     {
         $this->getFactory()->createDatabaseLoader()->loadDemoData($importFilePath);
     }
+
+    /**
+     * @return void
+     */
+    public function generateTableMaps(): void
+    {
+        $this->getFactory()->createTableMapGenerator()->generateTableMaps();
+    }
 }

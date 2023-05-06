@@ -16,9 +16,4 @@ interface TransferFacadeInterface
      * @return void
      */
     public function createTransfers(ArrayObject $mappedXmlTransfers): void;
-
-    /**
-     * @return void
-     */
-    public function clearGeneratedDirectory(): void;
 }
