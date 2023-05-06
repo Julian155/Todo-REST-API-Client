@@ -18,6 +18,10 @@ abstract class AbstractClassResolver
             'layerName' => 'Business\\',
             'classType' => 'Facade',
         ],
+        'entityManager' => [
+            'layerName' => 'Persistence\\',
+            'classType' => 'EntityManager',
+        ],
         'queryContainer' => [
             'layerName' => 'Persistence\\',
             'classType' => 'QueryContainer',
@@ -40,9 +44,9 @@ abstract class AbstractClassResolver
     /**
      * @param object|string $callerClass
      *
-     * @return object
+     * @return object|null
      */
-    public function resolveClassName(object|string $callerClass): object
+    public function resolveClassName(object|string $callerClass): ?object
     {
         $this->getResolvableClassBuilder()->extractResolvableClassModule($callerClass);
 
@@ -57,6 +61,10 @@ abstract class AbstractClassResolver
             $this->getResolvableClassBuilder()->getModuleName(),
             $classType,
         );
+
+        if (!class_exists($resolvedClassPath)) {
+            return null;
+        }
 
         return new $resolvedClassPath;
     }

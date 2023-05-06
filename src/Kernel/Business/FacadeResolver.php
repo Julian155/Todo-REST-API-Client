@@ -11,14 +11,19 @@ class FacadeResolver extends AbstractClassResolver implements ServiceResolverInt
     /**
      * @param object|string $callerClass
      *
-     * @return \App\Kernel\Business\AbstractFacade
+     * @return \App\Kernel\Business\AbstractFacade|null
      */
-    public function resolveClass(object|string $callerClass): AbstractFacade
+    public function resolveClass(object|string $callerClass): ?AbstractFacade
     {
         /**
-         * @var \App\Kernel\Business\AbstractFacade $facade
+         * @var \App\Kernel\Business\AbstractFacade|null $facade
          */
         $facade = $this->resolveClassName($callerClass);
+
+        if (!$facade) {
+            return $facade;
+        }
+
         $facade->initFactory();
 
         return $facade;

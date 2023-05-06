@@ -1,3 +1,7 @@
 controllers.parker:
   resource: ../../src/Parker/Communication/Controller/
   type: annotation
+
+controllers.checkIn:
+  resource: ../../src/CheckIn/Communication/Controller/
+  type: annotation

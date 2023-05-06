@@ -8,6 +8,6 @@ class {{ className }}
     public const TABLE_NAME = '{{ tableName }}';
 
 {% for columnName in columns %}
-    public const COL_{{ columnName|upper }} = '{{ columnName }}';
+    public const COL_{{ columnName|upper }} = '{{ tableName }}.{{ columnName }}';
 {% endfor %}
 }

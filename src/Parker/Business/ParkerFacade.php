@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Parker\Business;
 
-use App\Kernel\Business\AbstractBusinessFactory;
+use App\Generated\Transfer\ParkerTransfer;
 use App\Kernel\Business\AbstractFacade;
 
 /**
@@ -11,9 +11,16 @@ use App\Kernel\Business\AbstractFacade;
  */
 class ParkerFacade extends AbstractFacade implements ParkerFacadeInterface
 {
-    public function checkInShortTermParker(): void
+    /**
+     * @param \App\Generated\Transfer\ParkerTransfer $parkerTransfer
+     *
+     * @return void
+     */
+    public function checkInShortTermParker(ParkerTransfer $parkerTransfer): void
     {
-        $this->getFactory()->createParkerWriter()->writeShortTermParkerCheckInEntry();
+        $this->getFactory()
+            ->createParkerWriter()
+            ->writeShortTermParkerEntry($parkerTransfer);
     }
 
     public function checkInLongTermParker(): void

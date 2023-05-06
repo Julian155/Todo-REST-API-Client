@@ -1,16 +1,51 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Parker\Business\Writer;
-
-
+namespace App\Parker\Business\ParkerWriter;
 
 use App\Database\ConnectionTrait;
+use App\Generated\Transfer\ParkerTransfer;
+use App\Generated\Transfer\StatusTransfer;
+use App\Parker\Persistence\ParkerEntityManagerInterface;
 
-class ParkerWriter
+class ParkerWriter implements ParkerWriterInterface
 {
     use ConnectionTrait;
 
+    /**
+     * @var \App\Parker\Persistence\ParkerEntityManagerInterface
+     */
+    private ParkerEntityManagerInterface $parkerEntityManager;
+
+    /**
+     * @param \App\Parker\Persistence\ParkerEntityManagerInterface $parkerEntityManager
+     */
+    public function __construct(ParkerEntityManagerInterface $parkerEntityManager)
+    {
+        $this->parkerEntityManager = $parkerEntityManager;
+    }
+
+    /**
+     * @param \App\Generated\Transfer\ParkerTransfer $parkerTransfer
+     *
+     * @return void
+     */
+    public function writeShortTermParkerEntry(ParkerTransfer $parkerTransfer): void
+    {
+        $startDate = new \DateTime();
+
+        $testLicense = $this->createLicense();
+
+        $parkerTransfer->setKennzeichen($testLicense);
+
+        $parkerTransfer =  $this->parkerEntityManager->saveParkerEntry($parkerTransfer);
+        $statusTransfer = (new StatusTransfer())
+            ->setEinfahrtzeit($startDate->format('Y-m-d H:i:s'))
+            ->setParkerId($parkerTransfer->getId());
+
+        $this->parkerEntityManager->saveStatusEntry($statusTransfer);
+    }
+    
     /**
      * @return void
      */
@@ -20,6 +55,7 @@ class ParkerWriter
         $parkerID = $this->writeShortTermEntryInParker($this->createLicense(8));
         $this->writeShortTermEntryInStatus($parkerID);
     }
+
     public function writeLongTermParkerCheckInEntry(): void
     {
 
@@ -166,7 +202,12 @@ class ParkerWriter
         }
     }
 
-    function createLicense($length = 8): string
+    /**
+     * @param int $length
+     *
+     * @return string
+     */
+    function createLicense(int $length = 8): string
     {
         return substr(str_shuffle(str_repeat($x='0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ', (int)ceil($length / strlen($x)))),1,$length);
     }

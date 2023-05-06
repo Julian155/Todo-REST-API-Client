@@ -1,16 +1,16 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Parker\Business;
+namespace App\Parker\Business\ParkerWriter;
 
 use App\Generated\Transfer\ParkerTransfer;
 
-interface ParkerFacadeInterface
+interface ParkerWriterInterface
 {
     /**
      * @param \App\Generated\Transfer\ParkerTransfer $parkerTransfer
      *
      * @return void
      */
-    public function checkInShortTermParker(ParkerTransfer $parkerTransfer): void;
+    public function writeShortTermParkerEntry(ParkerTransfer $parkerTransfer): void;
 }

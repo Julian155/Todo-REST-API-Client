@@ -3,7 +3,10 @@ declare(strict_types=1);
 
 namespace App\Kernel;
 
+use App\Kernel\Persistence\AbstractEntityManager;
 use App\Kernel\Persistence\AbstractQueryContainer;
+use App\Kernel\Persistence\EntityMangerResolver;
+use App\Kernel\Persistence\QueryContainerResolver;
 
 abstract class AbstractFactory
 {
@@ -21,6 +24,51 @@ abstract class AbstractFactory
      * @var \App\Kernel\Persistence\AbstractQueryContainer|null
      */
     private ?AbstractQueryContainer $queryContainer = null;
+
+    /**
+     * @var \App\Kernel\Persistence\AbstractEntityManager|null
+     */
+    private ?AbstractEntityManager $entityManager = null;
+
+    /**
+     * @return \App\Kernel\Persistence\AbstractEntityManager
+     */
+    public function getEntityManager(): AbstractEntityManager
+    {
+        if (!$this->entityManager) {
+            $this->entityManager = $this->getEntityManagerResolver()->resolveClass($this);
+        }
+
+        return $this->entityManager;
+    }
+
+    /**
+     * @return \App\Kernel\Persistence\EntityMangerResolver
+     */
+    protected function getEntityManagerResolver(): EntityMangerResolver
+    {
+        return new EntityMangerResolver();
+    }
+
+    /**
+     * @return \App\Kernel\Persistence\AbstractQueryContainer
+     */
+    public function getQueryContainer(): AbstractQueryContainer
+    {
+        if (!$this->queryContainer) {
+            $this->queryContainer = $this->getQueryContainerResolver()->resolveClass($this);
+        }
+
+        return $this->queryContainer;
+    }
+
+    /**
+     * @return \App\Kernel\Persistence\QueryContainerResolver
+     */
+    protected function getQueryContainerResolver(): QueryContainerResolver
+    {
+        return new QueryContainerResolver();
+    }
 
     /**
      * @return \App\Kernel\AbstractConfig
@@ -86,5 +134,21 @@ abstract class AbstractFactory
     public function initDependencyProvider(): void
     {
         $this->dependencyProvider = $this->getContainerResolver()->resolveDependencyProvider($this);
+    }
+
+    /**
+     * @return void
+     */
+    public function initEntityManager(): void
+    {
+        $this->entityManager = $this->getEntityManagerResolver()->resolveClass($this);
+    }
+
+    /**
+     * @return void
+     */
+    public function initQueryContainer(): void
+    {
+        $this->queryContainer = $this->getQueryContainerResolver()->resolveClass($this);
     }
 }
