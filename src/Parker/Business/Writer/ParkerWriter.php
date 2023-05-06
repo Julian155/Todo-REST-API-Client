@@ -111,8 +111,14 @@ class ParkerWriter
     }
     public function writeShortTermEntryInStatus(int $parkerID): void
     {
-        $sqlStatement = $this->getConnection()->prepare("INSERT INTO Status (Einfahrtzeit,Ausfahrtzeit,Parkplatz_ID,Parker_ID) VALUES (?,?,?,?)");
-        $sqlStatement->execute([date('d-m-y h:i:s'), null, null,$parkerID]);
+        $this->getNumbersOfUsedParkingLots($numberOfUsedLongTermParkingLots, $numberOfUsedShortTermParkingLots);
+
+        if ((int)$numberOfUsedShortTermParkingLots < 140) {
+            $shortTermParkingLotID = $this->chooseShortTermParkingLot();
+            print_r($shortTermParkingLotID);
+            $sqlStatement = $this->getConnection()->prepare("INSERT INTO Status (Einfahrtzeit,Ausfahrtzeit,Parkplatz_ID,Parker_ID) VALUES (?,?,?,?)");
+            $sqlStatement->execute([date('d-m-y h:i:s'), null, $shortTermParkingLotID,$parkerID]);
+        }
     }
 
     public function writeLongTermEntryInParker(string $longTermParkerID): int
@@ -127,12 +133,102 @@ class ParkerWriter
     }
     public function writeLongTermEntryInStatus(int $parkerID): void
     {
-        $sqlStatement = $this->getConnection()->prepare("INSERT INTO Status (Einfahrtzeit,Ausfahrtzeit,Parkplatz_ID,Parker_ID) VALUES (?,?,?,?)");
-        $sqlStatement->execute([date('d-m-y h:i:s'), null, null,$parkerID]);
+        $this->getNumbersOfUsedParkingLots($numberOfUsedLongTermParkingLots, $numberOfUsedShortTermParkingLots);
+        // Maybe from 140 to 136
+
+        //print_r((int)$numberOfUsedLongTermParkingLots);
+        if (((int)$numberOfUsedLongTermParkingLots == 40) & (int)$numberOfUsedShortTermParkingLots == 140) {
+            error_log('All long term and short term parking lots are used');
+        }
+
+        if (((int)$numberOfUsedLongTermParkingLots == 40) & ((int)$numberOfUsedShortTermParkingLots < 140)) {
+            //print_r('1');
+            $shortTermParkingLotID = $this->chooseShortTermParkingLot();
+            $sqlStatement = $this->getConnection()->prepare("INSERT INTO Status (Einfahrtzeit,Ausfahrtzeit,Parkplatz_ID,Parker_ID) VALUES (?,?,?,?)");
+            $sqlStatement->execute([date('d-m-y h:i:s'), null, $shortTermParkingLotID,$parkerID]);
+        }
+        if (((int)$numberOfUsedLongTermParkingLots < 40) & ((int)$numberOfUsedShortTermParkingLots == 140)) {
+            //print_r('2');
+            $longTermParkingLotID = $this->chooseLongTermParkingLot();
+            $sqlStatement = $this->getConnection()->prepare("INSERT INTO Status (Einfahrtzeit,Ausfahrtzeit,Parkplatz_ID,Parker_ID) VALUES (?,?,?,?)");
+            $sqlStatement->execute([date('d-m-y h:i:s'), null, $longTermParkingLotID,$parkerID]);
+        }
+
+        if (((int)$numberOfUsedLongTermParkingLots < 40) & ((int)$numberOfUsedShortTermParkingLots < 140)) {
+            //print_r('3');
+            $shortTermParkingLotID = $this->chooseShortTermParkingLot();
+            $sqlStatement = $this->getConnection()->prepare("INSERT INTO Status (Einfahrtzeit,Ausfahrtzeit,Parkplatz_ID,Parker_ID) VALUES (?,?,?,?)");
+            $sqlStatement->execute([date('d-m-y h:i:s'), null, $shortTermParkingLotID,$parkerID]);
+
+            $longTermParkingLotID = $this->chooseLongTermParkingLot();
+            $sqlStatement = $this->getConnection()->prepare("INSERT INTO Status (Einfahrtzeit,Ausfahrtzeit,Parkplatz_ID,Parker_ID) VALUES (?,?,?,?)");
+            $sqlStatement->execute([date('d-m-y h:i:s'), null, $longTermParkingLotID,$parkerID]);
+        }
     }
 
     function createLicense($length = 8): string
     {
         return substr(str_shuffle(str_repeat($x='0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ', (int)ceil($length / strlen($x)))),1,$length);
+    }
+
+    public function chooseShortTermParkingLot(): int
+    {
+        //Maybe -4
+        $parkingLotID = rand(41,180);
+        $sqlStatement = $this->getConnection()->prepare("SELECT COUNT(*) FROM Status WHERE ID = ?");
+        $sqlStatement->execute([$parkingLotID]);
+        //$parkingLotUsed = $sqlStatement->fetch();
+
+        while (true) {
+            // Maybe -4
+            $parkingLotID = rand(41,180);
+            $sqlStatement = $this->getConnection()->prepare("SELECT COUNT(*) FROM Status WHERE ID = ?");
+            $sqlStatement->execute([$parkingLotID]);
+            //$parkingLotUsed = $sqlStatement->fetch();
+            if ($parkingLotID > 0) {
+                break;
+
+            }
+        }
+        return $parkingLotID;
+    }
+
+    public function chooseLongTermParkingLot(): int
+    {
+        $parkingLotID = rand(1,40);
+        $sqlStatement = $this->getConnection()->prepare("SELECT COUNT(*) FROM Status WHERE ID = ?");
+        $sqlStatement->execute([$parkingLotID]);
+        //$parkingLotUsed = $sqlStatement->fetch();
+
+        //print_r($parkingLotID);
+        while (true) {
+            $parkingLotID = rand(1,40);
+            $sqlStatement = $this->getConnection()->prepare("SELECT COUNT(*) FROM Status WHERE ID = ?");
+            $sqlStatement->execute([$parkingLotID]);
+            //$parkingLotUsed = $sqlStatement->fetch();
+            if ($parkingLotID > 0) {
+                break;
+            }
+        }
+        return $parkingLotID;
+    }
+
+    public function getNumbersOfUsedParkingLots(&$numberOfUsedLongTermParkingLots, &$numberOfUsedShortTermParkingLots)
+    {
+        $sqlStatement = $this->getConnection()->prepare("SELECT COUNT(*) FROM Status AS St JOIN Parkplatz AS Pa ON St.ID = Pa.ID WHERE Pa.Reserviert = 1");
+        $sqlStatement->execute();
+        $numberOfUsedLongTermParkingLots = $sqlStatement->fetchAll();
+
+        $sqlStatement = $this->getConnection()->prepare("SELECT COUNT(*) FROM Status AS St JOIN Parkplatz AS Pa ON St.ID = Pa.ID WHERE Pa.Reserviert = 0");
+        $sqlStatement->execute();
+        $numberOfUsedShortTermParkingLots = $sqlStatement->fetchAll();
+
+        //if ($numberOfUsedShortTermParkingLots == null) {
+       //     $numberOfUsedShortTermParkingLots = 0;
+        //}
+
+        //if ($numberOfUsedLongTermParkingLots == null) {
+       //     $numberOfUsedLongTermParkingLots = 0;
+      //  }
     }
 }
