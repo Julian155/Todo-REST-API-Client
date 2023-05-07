@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Parker\Business;
 
 use App\Generated\Transfer\ParkerTransfer;
+use App\Generated\Transfer\StatusTransfer;
 use App\Generated\Transfer\TicketTransfer;
 use App\Kernel\Business\AbstractFacade;
 
@@ -24,19 +25,15 @@ class ParkerFacade extends AbstractFacade implements ParkerFacadeInterface
             ->writeParkerAndStatusEntry($parkerTransfer);
     }
 
-    public function checkInLongTermParker(): void
+    /**
+     * @param \App\Generated\Transfer\ParkerTransfer $parkerTransfer
+     *
+     * @return void
+     */
+    public function deleteParker(ParkerTransfer $parkerTransfer): void
     {
-        $this->getFactory()->createParkerWriter()->writeLongTermParkerCheckInEntry();
-    }
-
-
-    public function checkOutShortTermParker(): void
-    {
-        $this->getFactory()->createParkerWriter()->writeShortTermParkerCheckOutEntry();
-    }
-
-    public function checkOutLongTermParker(): void
-    {
-        $this->getFactory()->createParkerWriter()->writeLongTermParkerCheckOutEntry();
+        $this->getFactory()
+            ->getEntityManager()
+            ->deleteParkerEntry($parkerTransfer);
     }
 }

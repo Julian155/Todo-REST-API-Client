@@ -20,4 +20,11 @@ interface ParkingStatusEntityManagerInterface
      * @return void
      */
     public function updateStatusEntry(StatusTransfer $statusTransfer): void;
+
+    /**
+     * @param \App\Generated\Transfer\StatusTransfer $statusTransfer
+     *
+     * @return void
+     */
+    public function deleteStatusEntry(StatusTransfer $statusTransfer): void;
 }

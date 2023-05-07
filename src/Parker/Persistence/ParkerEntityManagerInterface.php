@@ -13,4 +13,11 @@ interface ParkerEntityManagerInterface
      * @return \App\Generated\Transfer\ParkerTransfer
      */
     public function saveParkerEntry(ParkerTransfer $parkerTransfer): ParkerTransfer;
+
+    /**
+     * @param \App\Generated\Transfer\ParkerTransfer $parkerTransfer
+     *
+     * @return void
+     */
+    public function deleteParkerEntry(ParkerTransfer $parkerTransfer): void;
 }
