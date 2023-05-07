@@ -10,6 +10,11 @@
         <property name="parkerId" type="int"/>
     </transfer>
 
+    <transfer name="ParkedCar">
+        <property name="licencePlate" type="string"/>
+        <property name="parkingSpotId" type="int"/>
+    </transfer>
+
     <transfer name="ParkingSpace">
         <property name="freeNormalParkingSpaces" type="int"/>
         <property name="freeReservedParkingSpaces" type="int"/>

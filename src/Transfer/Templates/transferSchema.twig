@@ -16,7 +16,7 @@ class {{ className }} extends AbstractTransfer
     /**
      * @var {{ propertyNameAndUsePath['usePath'] ? propertyNameAndUsePath['usePath'] : propertyTypeAndUsePath['typeHint'] }}|null
      */
-    private ?{{ propertyTypeAndUsePath['type'] }} ${{ propertyName }} = null;
+    private ${{ propertyName }} = null;
 
 {% endfor %}
     /**
@@ -34,9 +34,9 @@ class {{ className }} extends AbstractTransfer
     /**
      * @param array $transferData
      *
-     * @return void
+     * @return $this
      */
-    public function fromArray(array $transferData): void
+    public function fromArray(array $transferData): self
     {
         foreach ($transferData as $key => $value) {
             switch ($key) {
@@ -47,6 +47,8 @@ class {{ className }} extends AbstractTransfer
 {% endfor %}
             }
         }
+
+        return $this;
     }
 {% for propertyName, propertyTypeAndUsePath in properties %}
 
@@ -67,7 +69,7 @@ class {{ className }} extends AbstractTransfer
     /**
      * @return {{ propertyNameAndUsePath['usePath'] ? propertyNameAndUsePath['usePath'] : propertyTypeAndUsePath['typeHint'] }}|null
      */
-    public function get{{ propertyName[:1]|upper ~ propertyName[1:] }}(): ?{{ propertyTypeAndUsePath['type'] }}
+    public function get{{ propertyName[:1]|upper ~ propertyName[1:] }}()
     {
         return $this->{{ propertyName }};
     }

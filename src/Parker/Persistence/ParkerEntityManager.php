@@ -37,25 +37,4 @@ class ParkerEntityManager extends AbstractEntityManager implements ParkerEntityM
 
         return $parkerTransfer;
     }
-
-    /**
-     * @param \App\Generated\Transfer\StatusTransfer $statusTransfer
-     *
-     * @return void
-     */
-    public function saveStatusEntry(StatusTransfer $statusTransfer): void
-    {
-        $insertStatement = $this->getConnection()->prepare(
-            "INSERT INTO ".StatusTableMap::TABLE_NAME.
-            " (".
-            StatusTableMap::COL_FK_PARKER.",".
-            StatusTableMap::COL_FK_PARKING_SPOT.
-            ") VALUES (?,?);"
-        );
-
-        $insertStatement->execute([
-            $statusTransfer->getParkerId(),
-            $statusTransfer->getParkingSpotId(),
-        ]);
-    }
 }

@@ -7,6 +7,7 @@ use App\Database\ConnectionTrait;
 use App\Generated\Transfer\ParkerTransfer;
 use App\Generated\Transfer\StatusTransfer;
 use App\Parker\Persistence\ParkerEntityManagerInterface;
+use App\ParkingStatus\Business\ParkingStatusFacadeInterface;
 
 class ParkerWriter implements ParkerWriterInterface
 {
@@ -18,11 +19,20 @@ class ParkerWriter implements ParkerWriterInterface
     private ParkerEntityManagerInterface $parkerEntityManager;
 
     /**
-     * @param \App\Parker\Persistence\ParkerEntityManagerInterface $parkerEntityManager
+     * @var \App\ParkingStatus\Business\ParkingStatusFacadeInterface
      */
-    public function __construct(ParkerEntityManagerInterface $parkerEntityManager)
-    {
+    private ParkingStatusFacadeInterface $parkingStatusFacade;
+
+    /**
+     * @param \App\Parker\Persistence\ParkerEntityManagerInterface $parkerEntityManager
+     * @param \App\ParkingStatus\Business\ParkingStatusFacadeInterface $parkingStatusFacade
+     */
+    public function __construct(
+        ParkerEntityManagerInterface $parkerEntityManager,
+        ParkingStatusFacadeInterface $parkingStatusFacade
+    ) {
         $this->parkerEntityManager = $parkerEntityManager;
+        $this->parkingStatusFacade = $parkingStatusFacade;
     }
 
     /**
@@ -37,7 +47,7 @@ class ParkerWriter implements ParkerWriterInterface
         $statusTransfer = (new StatusTransfer())
             ->setParkerId($parkerTransfer->getId());
 
-        $this->parkerEntityManager->saveStatusEntry($statusTransfer);
+        $this->parkingStatusFacade->saveParkingStatus($statusTransfer);
     }
     
     /**
