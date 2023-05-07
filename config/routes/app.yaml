@@ -5,3 +5,7 @@ controllers.parker:
 controllers.checkIn:
   resource: ../../src/CheckIn/Communication/Controller/
   type: annotation
+
+controllers.parkingStatus:
+  resource: ../../src/ParkingStatus/Communication/Controller/
+  type: annotation

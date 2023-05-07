@@ -27,7 +27,7 @@ abstract class AbstractTransfer implements Serializable
     /**
      * @param array $transferData
      *
-     * @return void
+     * @return $this
      */
-    public abstract function fromArray(array $transferData): void;
+    public abstract function fromArray(array $transferData): self;
 }
