@@ -41,6 +41,8 @@ class TableMapGenerator implements TableMapGeneratorInterface
 
     public function generateTableMaps(): void
     {
+        $this->twigFacade->cleanGeneratedDirectory(self::FOLDER_NAME);
+
         $this->routeTableMapDirectory = sprintf(
             '%s/%s/%s',
             $this->config->getApplicationRootDirectory(),
@@ -55,7 +57,7 @@ class TableMapGenerator implements TableMapGeneratorInterface
         ];
 
         foreach ($this->getTableData() as $tableName => $columns) {
-            $templateVariables['className'] = $tableName.self::FOLDER_NAME;
+            $templateVariables['className'] = str_replace("_", "", ucwords($tableName, " /_")).self::FOLDER_NAME;
             $templateVariables['tableName'] = $tableName;
             $templateVariables['columns'] = $columns;
 

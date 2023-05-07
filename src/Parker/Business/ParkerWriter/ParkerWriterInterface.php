@@ -12,5 +12,5 @@ interface ParkerWriterInterface
      *
      * @return void
      */
-    public function writeShortTermParkerEntry(ParkerTransfer $parkerTransfer): void;
+    public function writeParkerAndStatusEntry(ParkerTransfer $parkerTransfer): void;
 }

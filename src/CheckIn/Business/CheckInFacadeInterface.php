@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\CheckIn\Business;
 
+use App\Generated\Transfer\ParkerTransfer;
 use App\Generated\Transfer\ParkingSpaceTransfer;
 
 interface CheckInFacadeInterface
@@ -13,7 +14,9 @@ interface CheckInFacadeInterface
     public function getFreeParkingSpaceCounts(): ParkingSpaceTransfer;
 
     /**
+     * @param \App\Generated\Transfer\ParkerTransfer $parkerTransfer
+     *
      * @return void
      */
-    public function checkInShortTermParker(): void;
+    public function checkInParker(ParkerTransfer $parkerTransfer): void;
 }

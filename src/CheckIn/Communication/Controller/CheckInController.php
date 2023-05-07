@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\CheckIn\Communication\Controller;
 
+use App\Generated\Transfer\ParkerTransfer;
 use App\Kernel\Communication\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,7 +26,21 @@ class CheckInController extends AbstractController
     #[Route('/CheckIn/ShortTermParker', name: 'Check In Short Term Parker')]
     public function checkInShortTermParker(Request $request): Response
     {
-        $this->getFacade()->checkInShortTermParker();
+        $parkerTransfer = new ParkerTransfer();
+
+        $this->getFacade()->checkInParker($parkerTransfer);
+
+        return new Response();
+    }
+
+    #[Route('/CheckIn/LongTermParker', name: 'Check In Long Term Parker')]
+    public function checkInLongTermParker(Request $request): Response
+    {
+        $parkerTransfer = new ParkerTransfer();
+        // TODO: Id will come from request
+        $parkerTransfer->setLongTermParkerId(1);
+
+        $this->getFacade()->checkInParker($parkerTransfer);
 
         return new Response();
     }

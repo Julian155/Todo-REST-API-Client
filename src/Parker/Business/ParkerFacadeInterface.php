@@ -12,5 +12,5 @@ interface ParkerFacadeInterface
      *
      * @return void
      */
-    public function checkInShortTermParker(ParkerTransfer $parkerTransfer): void;
+    public function checkInParker(ParkerTransfer $parkerTransfer): void;
 }

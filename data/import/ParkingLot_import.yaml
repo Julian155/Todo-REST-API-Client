@@ -1,0 +1,6 @@
+actions:
+  - table-name: long_term_parker
+    source: data/LongTermParker.csv
+
+  - table-name: parking_spot
+    source: data/parkingSpot.csv

@@ -14,12 +14,6 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class CheckInParkerController extends AbstractController
 {
-    #[Route('/CheckIn/LongTermParker', name: 'Check In Long Term Parker')]
-    public function checkInLongTermParker(Request $request): Response
-    {
-        $this->getFacade()->checkInLongTermParker();
-        return new Response();
-    }
 
     #[Route('/CheckOut/ShortTermParker', name: 'Check Out Short Term Parker')]
     public function checkOutShortTermParker(Request $request): Response
@@ -34,6 +28,4 @@ class CheckInParkerController extends AbstractController
         $this->getFacade()->checkOutLongTermParker();
         return new Response();
     }
-
-
 }

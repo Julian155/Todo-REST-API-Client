@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\CheckIn\Business;
 
+use App\Generated\Transfer\ParkerTransfer;
 use App\Generated\Transfer\ParkingSpaceTransfer;
 use App\Kernel\Business\AbstractFacade;
 
@@ -20,10 +21,12 @@ class CheckInFacade extends AbstractFacade implements CheckInFacadeInterface
     }
 
     /**
+     * @param \App\Generated\Transfer\ParkerTransfer $parkerTransfer
+     *
      * @return void
      */
-    public function checkInShortTermParker(): void
+    public function checkInParker(ParkerTransfer $parkerTransfer): void
     {
-        $this->getFactory()->createCheckInHandler()->checkInShortTermParker();
+        $this->getFactory()->createCheckInHandler()->checkInParker($parkerTransfer);
     }
 }

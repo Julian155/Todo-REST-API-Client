@@ -5,15 +5,9 @@
 
     <transfer name="Status">
         <property name="id" type="int"/>
-        <property name="einfahrtzeit" type="string"/>
-        <property name="ausfahrtzeit" type="string"/>
-        <property name="parkplatzId" type="int"/>
+        <property name="arrivedAt" type="string"/>
+        <property name="parkingSpotId" type="int"/>
         <property name="parkerId" type="int"/>
-    </transfer>
-
-    <transfer name="Parkplatz">
-        <property name="id" type="int"/>
-        <property name="reserviert" type="bool"/>
     </transfer>
 
     <transfer name="ParkingSpace">
