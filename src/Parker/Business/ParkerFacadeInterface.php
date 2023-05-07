@@ -14,4 +14,11 @@ interface ParkerFacadeInterface
      * @return \App\Generated\Transfer\TicketTransfer
      */
     public function checkInParker(ParkerTransfer $parkerTransfer): TicketTransfer;
+
+    /**
+     * @param \App\Generated\Transfer\ParkerTransfer $parkerTransfer
+     *
+     * @return void
+     */
+    public function deleteParker(ParkerTransfer $parkerTransfer): void;
 }

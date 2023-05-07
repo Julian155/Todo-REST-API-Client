@@ -35,4 +35,16 @@ class ParkingStatusFacade extends AbstractFacade implements ParkingStatusFacadeI
             ->createParkingStatusWriter()
             ->updateParkedSpotInStatus($parkedCarTransfer);
     }
+
+    /**
+     * @param \App\Generated\Transfer\StatusTransfer $statusTransfer
+     *
+     * @return void
+     */
+    public function deleteParkingStatus(StatusTransfer $statusTransfer): void
+    {
+        $this->getFactory()
+            ->getEntityManager()
+            ->deleteStatusEntry($statusTransfer);
+    }
 }

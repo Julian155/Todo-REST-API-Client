@@ -21,4 +21,11 @@ interface ParkingStatusFacadeInterface
      * @return void
      */
     public function updateParkedSpotInStatus(ParkedCarTransfer $parkedCarTransfer): void;
+
+    /**
+     * @param \App\Generated\Transfer\StatusTransfer $statusTransfer
+     *
+     * @return void
+     */
+    public function deleteParkingStatus(StatusTransfer $statusTransfer): void;
 }

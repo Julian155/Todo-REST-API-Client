@@ -50,4 +50,22 @@ class ParkingStatusEntityManager extends AbstractEntityManager implements Parkin
             $statusTransfer->getId(),
         ]);
     }
+
+    /**
+     * @param \App\Generated\Transfer\StatusTransfer $statusTransfer
+     *
+     * @return void
+     */
+    public function deleteStatusEntry(StatusTransfer $statusTransfer): void
+    {
+        $deleteStatement = $this->getConnection()->prepare(
+            "DELETE ".StatusTableMap::TABLE_NAME.
+            " FROM ".StatusTableMap::TABLE_NAME.
+            " WHERE ".StatusTableMap::COL_ID." = ? LIMIT 1;"
+        );
+
+        $deleteStatement->execute([
+            $statusTransfer->getId(),
+        ]);
+    }
 }
