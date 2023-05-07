@@ -5,6 +5,7 @@ namespace App\CheckIn\Business;
 
 use App\Generated\Transfer\ParkerTransfer;
 use App\Generated\Transfer\ParkingSpaceTransfer;
+use App\Generated\Transfer\TicketTransfer;
 
 interface CheckInFacadeInterface
 {
@@ -16,7 +17,7 @@ interface CheckInFacadeInterface
     /**
      * @param \App\Generated\Transfer\ParkerTransfer $parkerTransfer
      *
-     * @return void
+     * @return \App\Generated\Transfer\TicketTransfer
      */
-    public function checkInParker(ParkerTransfer $parkerTransfer): void;
+    public function checkInParker(ParkerTransfer $parkerTransfer): TicketTransfer;
 }

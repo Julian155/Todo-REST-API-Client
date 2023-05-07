@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Parker\Business;
 
 use App\Generated\Transfer\ParkerTransfer;
+use App\Generated\Transfer\TicketTransfer;
 use App\Kernel\Business\AbstractFacade;
 
 /**
@@ -14,11 +15,11 @@ class ParkerFacade extends AbstractFacade implements ParkerFacadeInterface
     /**
      * @param \App\Generated\Transfer\ParkerTransfer $parkerTransfer
      *
-     * @return void
+     * @return \App\Generated\Transfer\TicketTransfer
      */
-    public function checkInParker(ParkerTransfer $parkerTransfer): void
+    public function checkInParker(ParkerTransfer $parkerTransfer): TicketTransfer
     {
-        $this->getFactory()
+        return $this->getFactory()
             ->createParkerWriter()
             ->writeParkerAndStatusEntry($parkerTransfer);
     }

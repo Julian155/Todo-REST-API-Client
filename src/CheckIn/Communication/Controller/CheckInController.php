@@ -7,7 +7,6 @@ use App\Generated\Transfer\ParkerTransfer;
 use App\Kernel\Communication\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -16,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class CheckInController extends AbstractController
 {
     #[Route('/', name:'getFreeParkingSpaceCount')]
-    public function getFreeParkingSpaceCount(Request $request): Response
+    public function getFreeParkingSpaceCount(Request $request): JsonResponse
     {
         $parkingSpaceTransfer = $this->getFacade()->getFreeParkingSpaceCounts();
 
@@ -24,24 +23,24 @@ class CheckInController extends AbstractController
     }
 
     #[Route('/CheckIn/ShortTermParker', name: 'Check In Short Term Parker')]
-    public function checkInShortTermParker(Request $request): Response
+    public function checkInShortTermParker(Request $request): JsonResponse
     {
         $parkerTransfer = new ParkerTransfer();
 
-        $this->getFacade()->checkInParker($parkerTransfer);
+        $ticketTransfer = $this->getFacade()->checkInParker($parkerTransfer);
 
-        return new Response();
+        return new JsonResponse($ticketTransfer->toArray());
     }
 
     #[Route('/CheckIn/LongTermParker', name: 'Check In Long Term Parker')]
-    public function checkInLongTermParker(Request $request): Response
+    public function checkInLongTermParker(Request $request): JsonResponse
     {
         $parkerTransfer = new ParkerTransfer();
         // TODO: Id will come from request
         $parkerTransfer->setLongTermParkerId(1);
 
-        $this->getFacade()->checkInParker($parkerTransfer);
+        $ticketTransfer = $this->getFacade()->checkInParker($parkerTransfer);
 
-        return new Response();
+        return new JsonResponse($ticketTransfer->toArray());
     }
 }

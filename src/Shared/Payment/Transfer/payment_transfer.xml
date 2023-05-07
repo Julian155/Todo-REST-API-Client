@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<transfers xmlns="transfer-schema"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="transfer-schema ../../../Transfer/Templates/schema.xsd">
+
+    <transfer name="Payment">
+        <property name="arrivedAt" type="string"/>
+        <property name="departuredAt" type="string"/>
+        <property name="licencePlate" type="string"/>
+        <property name="amount" type="float"/>
+    </transfer>
+
+    <transfer name="Ticket">
+        <property name="licencePlate" type="string"/>
+        <property name="arrivedAt" type="string"/>
+        <property name="longTermParkerId" type="int"/>
+    </transfer>
+
+</transfers>

@@ -4,13 +4,14 @@ declare(strict_types=1);
 namespace App\CheckIn\Business\CheckInHandler;
 
 use App\Generated\Transfer\ParkerTransfer;
+use App\Generated\Transfer\TicketTransfer;
 
 interface CheckInHandlerInterface
 {
     /**
      * @param \App\Generated\Transfer\ParkerTransfer $parkerTransfer
      *
-     * @return void
+     * @return \App\Generated\Transfer\TicketTransfer
      */
-    public function checkInParker(ParkerTransfer $parkerTransfer): void;
+    public function checkInParker(ParkerTransfer $parkerTransfer): TicketTransfer;
 }
