@@ -3,14 +3,15 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="transfer-schema ../../../Transfer/Templates/schema.xsd">
 
-    <transfer name="DauerParker">
-        <property name="vorname" type="string"/>
-        <property name="nachname" type="string"/>
+    <transfer name="LongTermParker">
+        <property name="id" type="int"/>
+        <property name="firstName" type="string"/>
+        <property name="lastName" type="string"/>
     </transfer>
 
     <transfer name="Parker">
         <property name="id" type="int"/>
-        <property name="kennzeichen" type="string"/>
-        <property name="dauerparkerId" type="int"/>
+        <property name="licencePlate" type="string"/>
+        <property name="longTermParkerId" type="int"/>
     </transfer>
 </transfers>

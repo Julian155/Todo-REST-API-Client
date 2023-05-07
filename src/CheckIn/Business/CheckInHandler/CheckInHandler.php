@@ -22,10 +22,27 @@ class CheckInHandler implements CheckInHandlerInterface
     }
 
     /**
+     * @param \App\Generated\Transfer\ParkerTransfer $parkerTransfer
+     *
      * @return void
      */
-    public function checkInShortTermParker(): void
+    public function checkInParker(ParkerTransfer $parkerTransfer): void
     {
-        $this->parkerFacade->checkInShortTermParker((new ParkerTransfer()));
+        $parkerTransfer->setLicencePlate($this->createLicense());
+
+        $this->parkerFacade->checkInParker($parkerTransfer);
+    }
+
+
+    /**
+     * Temp test method. Real license string will come from the request
+     *
+     * @param int $length
+     *
+     * @return string
+     */
+    protected function createLicense(int $length = 8): string
+    {
+        return substr(str_shuffle(str_repeat($x='0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ', (int)ceil($length / strlen($x)))),1,$length);
     }
 }

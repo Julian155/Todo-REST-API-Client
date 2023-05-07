@@ -16,11 +16,11 @@ class ParkerFacade extends AbstractFacade implements ParkerFacadeInterface
      *
      * @return void
      */
-    public function checkInShortTermParker(ParkerTransfer $parkerTransfer): void
+    public function checkInParker(ParkerTransfer $parkerTransfer): void
     {
         $this->getFactory()
             ->createParkerWriter()
-            ->writeShortTermParkerEntry($parkerTransfer);
+            ->writeParkerAndStatusEntry($parkerTransfer);
     }
 
     public function checkInLongTermParker(): void

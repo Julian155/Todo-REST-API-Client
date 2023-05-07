@@ -30,17 +30,11 @@ class ParkerWriter implements ParkerWriterInterface
      *
      * @return void
      */
-    public function writeShortTermParkerEntry(ParkerTransfer $parkerTransfer): void
+    public function writeParkerAndStatusEntry(ParkerTransfer $parkerTransfer): void
     {
-        $startDate = new \DateTime();
-
-        $testLicense = $this->createLicense();
-
-        $parkerTransfer->setKennzeichen($testLicense);
-
         $parkerTransfer =  $this->parkerEntityManager->saveParkerEntry($parkerTransfer);
+
         $statusTransfer = (new StatusTransfer())
-            ->setEinfahrtzeit($startDate->format('Y-m-d H:i:s'))
             ->setParkerId($parkerTransfer->getId());
 
         $this->parkerEntityManager->saveStatusEntry($statusTransfer);

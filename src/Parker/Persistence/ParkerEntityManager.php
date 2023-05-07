@@ -21,14 +21,14 @@ class ParkerEntityManager extends AbstractEntityManager implements ParkerEntityM
         $insertStatement = $this->getConnection()->prepare(
             "INSERT INTO ".ParkerTableMap::TABLE_NAME.
             " (".
-                ParkerTableMap::COL_KENNZEICHEN.",".
-                ParkerTableMap::COL_DAUERPARKER_ID.
+                ParkerTableMap::COL_LICENSE_PLATE.",".
+                ParkerTableMap::COL_FK_LONG_TERM_PARKER.
             ") VALUES (?,?);"
         );
 
         $insertStatement->execute([
-            $parkerTransfer->getKennzeichen(),
-            $parkerTransfer->getDauerparkerId(),
+            $parkerTransfer->getLicencePlate(),
+            $parkerTransfer->getLongTermParkerId(),
         ]);
 
         $parkerTransfer->setId(
@@ -48,18 +48,14 @@ class ParkerEntityManager extends AbstractEntityManager implements ParkerEntityM
         $insertStatement = $this->getConnection()->prepare(
             "INSERT INTO ".StatusTableMap::TABLE_NAME.
             " (".
-            StatusTableMap::COL_EINFAHRTZEIT.",".
-            StatusTableMap::COL_AUSFAHRTZEIT.",".
-            StatusTableMap::COL_PARKPLATZ_ID.",".
-            StatusTableMap::COL_PARKER_ID.
-            ") VALUES (?,?,?,?);"
+            StatusTableMap::COL_FK_PARKER.",".
+            StatusTableMap::COL_FK_PARKING_SPOT.
+            ") VALUES (?,?);"
         );
 
         $insertStatement->execute([
-            $statusTransfer->getEinfahrtzeit(),
-            $statusTransfer->getAusfahrtzeit(),
-            $statusTransfer->getParkplatzId(),
             $statusTransfer->getParkerId(),
+            $statusTransfer->getParkingSpotId(),
         ]);
     }
 }

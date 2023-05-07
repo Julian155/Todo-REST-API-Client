@@ -1,6 +1,0 @@
-actions:
-  - table-name: Dauerparker
-    source: data/dauerparker.csv
-
-  - table-name: Parkplatz
-    source: data/parkplatz.csv
