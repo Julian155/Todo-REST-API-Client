@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\CheckIn\Business\CheckInHandler;
 
 use App\Generated\Transfer\ParkerTransfer;
+use App\Generated\Transfer\TicketTransfer;
 use App\Parker\Business\ParkerFacadeInterface;
 
 class CheckInHandler implements CheckInHandlerInterface
@@ -24,15 +25,14 @@ class CheckInHandler implements CheckInHandlerInterface
     /**
      * @param \App\Generated\Transfer\ParkerTransfer $parkerTransfer
      *
-     * @return void
+     * @return \App\Generated\Transfer\TicketTransfer
      */
-    public function checkInParker(ParkerTransfer $parkerTransfer): void
+    public function checkInParker(ParkerTransfer $parkerTransfer): TicketTransfer
     {
         $parkerTransfer->setLicencePlate($this->createLicense());
 
-        $this->parkerFacade->checkInParker($parkerTransfer);
+        return $this->parkerFacade->checkInParker($parkerTransfer);
     }
-
 
     /**
      * Temp test method. Real license string will come from the request

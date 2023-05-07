@@ -6,8 +6,10 @@ namespace App\Parker\Business\ParkerWriter;
 use App\Database\ConnectionTrait;
 use App\Generated\Transfer\ParkerTransfer;
 use App\Generated\Transfer\StatusTransfer;
+use App\Generated\Transfer\TicketTransfer;
 use App\Parker\Persistence\ParkerEntityManagerInterface;
 use App\ParkingStatus\Business\ParkingStatusFacadeInterface;
+use DateTime;
 
 class ParkerWriter implements ParkerWriterInterface
 {
@@ -38,16 +40,24 @@ class ParkerWriter implements ParkerWriterInterface
     /**
      * @param \App\Generated\Transfer\ParkerTransfer $parkerTransfer
      *
-     * @return void
+     * @return \App\Generated\Transfer\TicketTransfer
      */
-    public function writeParkerAndStatusEntry(ParkerTransfer $parkerTransfer): void
+    public function writeParkerAndStatusEntry(ParkerTransfer $parkerTransfer): TicketTransfer
     {
+        $arrivedAt = (new DateTime())->format('Y-m-d H:m:s');
+
         $parkerTransfer =  $this->parkerEntityManager->saveParkerEntry($parkerTransfer);
 
         $statusTransfer = (new StatusTransfer())
-            ->setParkerId($parkerTransfer->getId());
+            ->setParkerId($parkerTransfer->getId())
+            ->setArrivedAt($arrivedAt);
 
         $this->parkingStatusFacade->saveParkingStatus($statusTransfer);
+
+        return (new TicketTransfer())
+            ->setLicencePlate($parkerTransfer->getLicencePlate())
+            ->setArrivedAt($arrivedAt)
+            ->setLongTermParkerId($parkerTransfer->getLongTermParkerId());
     }
     
     /**

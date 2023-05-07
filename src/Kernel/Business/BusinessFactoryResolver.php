@@ -14,6 +14,7 @@ class BusinessFactoryResolver extends AbstractClassResolver
      */
     public function resolveFactory(object $callerClass): AbstractBusinessFactory
     {
+
         /**
          * @var \App\Kernel\Business\AbstractBusinessFactory $factory
          */

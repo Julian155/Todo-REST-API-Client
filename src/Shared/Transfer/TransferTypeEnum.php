@@ -9,6 +9,7 @@ interface TransferTypeEnum
         'int',
         'string',
         'bool',
-        'array'
+        'array',
+        'float',
     ];
 }
