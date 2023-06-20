@@ -1,0 +1,40 @@
+{% extends "index.twig" %}
+
+{% block content %}
+    <div class="cards">
+        {% for todoEntry in todoEntries %}
+            <div class="card">
+                <span>List</span>
+                <ul>
+                    <li>
+                        <span>Id: {{ todoEntry['id'] }}</span>
+                    </li>
+                    <li>
+                        <span>Name: {{ todoEntry['name'] }}</span>
+                    </li>
+                    <li>
+                        <span>Description: {{ todoEntry['description'] }}</span>
+                    </li>
+                </ul>
+                <ul>
+                    <li>
+                        <a role="button"
+                           href="{{ url('updateTodoEntry', {'todoEntryId': todoEntry['id']}) }}"
+                        >
+                            <span></span>
+                            Edit todo list
+                        </a>
+                    </li>
+                    <li>
+                        <a role="button"
+                           href="{{ url('deleteTodoEntry', {'todoEntryId': todoEntry['id']}) }}"
+                        >
+                            <span></span>
+                            Delete todo list
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

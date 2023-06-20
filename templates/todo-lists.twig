@@ -1,0 +1,74 @@
+{% extends "index.twig" %}
+
+{% block content %}
+    <div class="cards">
+    {% for todoList in todoLists %}
+        <div class="card">
+            <span>List</span>
+            <ul>
+                <li>
+                    <span>Id: {{ todoList['id'] }}</span>
+                </li>
+                <li>
+                    <span>Name: {{ todoList['name'] }}</span>
+                </li>
+            </ul>
+            <div>
+                <span>Entries</span>
+                {% for todoEntry in todoList['entries'] %}
+                    <ul>
+                        <li>
+                            <span>Id: {{ todoEntry['id'] }}</span>
+                        </li>
+                        <li>
+                            <span>Name: {{ todoEntry['name'] }}</span>
+                        </li>
+                        <li>
+                            <span>Description: {{ todoEntry['description'] }}</span>
+                        </li>
+                    </ul>
+                {% endfor %}
+            </div>
+            <ul>
+                <li>
+                    <a role="button"
+                       href="{{ url('updateTodoList', {'todoListId': todoList['id']}) }}"
+                    >
+                        <span></span>
+                        Edit todo list
+                    </a>
+                </li>
+                <li>
+                    <a role="button"
+                       href="{{ url('deleteTodoList', {'todoListId': todoList['id']}) }}"
+                    >
+                        <span></span>
+                        Delete todo list
+                    </a>
+                </li>
+                <li>
+                    <a role="button"
+                       href="{{ url('addTodoListEntry', {'todoListId': todoList['id']}) }}"
+                    >
+                        <span></span>
+                        Add todo list entry
+                    </a>
+                </li>
+                <li>
+                    <a role="button"
+                       href="{{ url('getTodoListEntries', {'todoListId': todoList['id']}) }}"
+                    >
+                        <span></span>
+                        Show todo list entries
+                    </a>
+                </li>
+            </ul>
+        </div>
+    {% endfor %}
+    </div>
+    <div>
+        <a href="{{ url('createTodoList') }}">
+            <span>Create a new todo list</span>
+        </a>
+    </div>
+{% endblock %}

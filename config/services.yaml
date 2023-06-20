@@ -16,12 +16,10 @@ services:
     App\:
         resource: '../src/'
         exclude:
-            - '../src/Generated/'
             - '../src/DependencyInjection/'
-            - '../src/Entity/'
-            - '../src/Kernel/Kernel.php'
-            - '../src/Console/Console.php'
+            - '../src/Kernel.php'
 
-
+    GuzzleHttp\Client:
+        class: GuzzleHttp\Client
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

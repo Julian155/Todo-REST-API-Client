@@ -1,0 +1,15 @@
+{% extends "index.twig" %}
+
+{% block content %}
+    <div class="form">
+        <span>Update todo list</span>
+
+        {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <button type="submit">{{ 'Submit'|trans }}</button>
+
+        {{ form_end(form) }}
+    </div>
+
+{% endblock %}
+
